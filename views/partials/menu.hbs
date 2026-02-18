@@ -1,0 +1,5 @@
+﻿<nav class="nav">
+  {{#each menu}}
+    <a href="{{href}}">{{label}}</a>{{#unless @last}} | {{/unless}}
+  {{/each}}
+</nav>

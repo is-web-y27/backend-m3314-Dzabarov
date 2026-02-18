@@ -1,0 +1,9 @@
+﻿<div style="margin-top:8px">
+  {{#if isAuth}}
+    <span>Вы вошли как <b>{{username}}</b></span>
+    <a style="margin-left:10px" href="?auth=0">Выйти</a>
+  {{else}}
+    <a href="?auth=1">Войти</a>
+    <a style="margin-left:10px" href="/register">Регистрация</a>
+  {{/if}}
+</div>

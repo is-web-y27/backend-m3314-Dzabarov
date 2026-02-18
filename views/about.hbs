@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="О нас: команда, миссия, ценности.">
+  {{> bundles}}
+</head>
+<body>
+{{> header}}
+
+<main class="main">
+  <section class="section" id="about">
+    <h2>О нас</h2>
+
+    <div class="image-container">
+      <img src="/images/5.jpg" alt="Команда наставников" class="image">
+      <p class="image-caption">Наша команда опытных наставников и инструкторов</p>
+    </div>
+
+    <article class="article">
+      <h3>Миссия</h3>
+      <p>Помогаем подросткам укреплять характер и здоровье через спорт, горные походы и командную работу.</p>
+    </article>
+
+    <article class="article">
+      <h3>Почему нам доверяют</h3>
+      <ul class="list list--unordered">
+        <li class="list__item"><strong class="strong">Безопасность прежде всего.</strong> Медицинский допуск, групповые правила.</li>
+        <li class="list__item"><strong class="strong">Добровольность.</strong> Участие только по согласию родителей.</li>
+        <li class="list__item"><strong class="strong">Наставники с опытом.</strong> Отбор и инструктаж.</li>
+      </ul>
+    </article>
+
+    <article class="article">
+      <h3>Как мы работаем</h3>
+      <p>Фокус на базовых навыках треккинга, технике борьбы и ОФП.</p>
+
+      <div class="image-container">
+        <img src="/images/6.jpg" alt="Тренировочный процесс" class="image">
+        <p class="image-caption">Системный подход к обучению и развитию</p>
+      </div>
+    </article>
+
+    <blockquote class="blockquote">
+      «Сила приходит там, где каждый день ты делаешь на шаг больше, чем вчера».
+      <cite class="cite"> — команда наставников</cite>
+    </blockquote>
+  </section>
+</main>
+
+{{> footer}}
+</body>
+</html>
