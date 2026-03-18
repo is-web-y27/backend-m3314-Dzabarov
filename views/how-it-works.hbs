@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Процесс набора: заявка, собеседование, меддопуск, распределение.">
+  {{> bundles}}
+</head>
+<body>
+{{> header}}
+
+<main class="main">
+  <section class="section" id="how-it-works" aria-labelledby="how-title">
+    <h2 id="how-title">Как это работает</h2>
+    <p>Коротко: заполняете заявку → собеседование с наставником → медицинский допуск → распределение в группу.</p>
+
+    <div class="image-container">
+      <img src="/images/6.jpg" alt="Процесс подготовки" class="image">
+      <p class="image-caption">Поэтапный процесс отбора обеспечивает безопасность и качество программ</p>
+    </div>
+
+    <article class="article">
+      <h3>Этапы набора</h3>
+      <ul class="list list--unordered">
+        <li class="list__item"><strong class="strong">Этап 1.</strong> Онлайн-заявка</li>
+        <li class="list__item"><strong class="strong">Этап 2.</strong> Собеседование с наставником</li>
+        <li class="list__item"><strong class="strong">Этап 3.</strong> Медицинский допуск</li>
+        <li class="list__item"><strong class="strong">Этап 4.</strong> Распределение в группу и подтверждение</li>
+      </ul>
+    </article>
+
+    <article class="article">
+      <h3>Сниппет кода</h3>
+      <pre class="pre"><code class="code">// Псевдо-обработчик заявки (Go)
+type Application struct {
+    Name  string
+    Age   int
+    Phone string
+    Track string // "trekking" | "wrestling" | "media"
+}
+
+func Validate(a Application) error {
+    if a.Age &lt; 13 || a.Age &gt; 17 { return fmt.Errorf("доступно 13–17 лет") }
+    if a.Name == "" { return fmt.Errorf("нужно имя") }
+    return nil
+}</code></pre>
+    </article>
+
+    <blockquote class="blockquote">
+      «Слабость уходит там, где есть дисциплина и команда. Горы честно показывают, кто ты есть».
+      <cite class="cite"> — наставник Магомед, с. Гимры</cite>
+    </blockquote>
+  </section>
+</main>
+
+{{> footer}}
+</body>
+</html>

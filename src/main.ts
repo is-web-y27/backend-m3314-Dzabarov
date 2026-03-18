@@ -4,33 +4,21 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import hbs from 'hbs';
 
-import { readFileSync } from 'fs';
-
 async function bootstrap() {
-  hbs.registerPartial(
-    'product-card',
-    readFileSync(
-      join(__dirname, '..', 'views', 'partials', 'product-card.hbs'),
-      'utf8',
-    ),
-  );
-  hbs.registerPartial(
-    'gallery-item',
-    readFileSync(
-      join(__dirname, '..', 'views', 'partials', 'gallery-item.hbs'),
-      'utf8',
-    ),
-  );
-
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
   hbs.registerPartials(join(__dirname, '..', 'views', 'partials'));
 
-  const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+  const port = Number(process.env.PORT ?? 3000);
   await app.listen(port, '0.0.0.0');
+
+  console.log(`Server started on http://localhost:${port}`);
 }
 
-void bootstrap();
+bootstrap().catch((err) => {
+  console.error('BOOTSTRAP ERROR:', err);
+});

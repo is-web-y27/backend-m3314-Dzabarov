@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Контакты и реквизиты.">
+  {{> bundles}}
+</head>
+<body>
+{{> header}}
+
+<main class="main">
+  <section class="section">
+    <h2>Контакты</h2>
+
+    <div class="image-container">
+      <img src="/images/7.jpeg" alt="Местоположение лагеря" class="image">
+      <p class="image-caption">Наш лагерь расположен в живописном районе Кавказа</p>
+    </div>
+
+    <article class="article">
+      <address class="address">
+        <strong class="strong">Телефон:</strong> +7 (900) 000-00-00<br>
+        <strong class="strong">Email:</strong> info@sendhimtodagestan.example<br>
+        <strong class="strong">Координаты офиса:</strong> 42°59′02″ с. ш., 47°30′18″ в. д.
+      </address>
+    </article>
+
+    <article class="article">
+      <h3>Режим работы</h3>
+      <ul class="list list--unordered">
+        <li class="list__item">Понедельник - Пятница: 9:00 - 18:00</li>
+        <li class="list__item">Суббота: 10:00 - 16:00</li>
+        <li class="list__item">Воскресенье: выходной</li>
+      </ul>
+    </article>
+  </section>
+</main>
+
+{{> footer}}
+</body>
+</html>

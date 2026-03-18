@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Render } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 
 function buildMenu() {
   return [
@@ -12,11 +12,14 @@ function buildMenu() {
   ];
 }
 
-function buildSession(auth?: string) {
-  const isAuth = auth === '1' || auth === 'true';
+function baseView(title: string, scripts: string[] = []) {
   return {
-    isAuth,
-    username: isAuth ? 'etdev' : null,
+    title,
+    year: new Date().getFullYear(),
+    menu: buildMenu(),
+    headerDesc:
+      '<strong>Спортивно-туристические «лагеря закалки»</strong> на Кавказе — горы, борьба, команда и характер. Всё <em class="em">добровольно</em>, по согласию родителей и с приоритетом безопасности.',
+    scripts,
   };
 }
 
@@ -24,54 +27,47 @@ function buildSession(auth?: string) {
 export class AppController {
   @Get()
   @Render('index')
-  index(@Query('auth') auth?: string) {
-    return {
-      title: 'Send Him to Dagestan — Главная',
-      year: new Date().getFullYear(),
-      headerDesc:
-        '<strong>Спортивно-туристические «лагеря закалки»</strong> на Кавказе — горы, борьба, команда и характер. Всё <em class="em">добровольно</em>, по согласию родителей и с приоритетом безопасности.',
-      menu: buildMenu(),
-      ...buildSession(auth),
-      message: 'Страница отрендерена шаблонизатором hbs',
+  index() {
+    return baseView('Send Him to Dagestan — Главная', ['/js/main.js']);
+  }
 
-      gallery: [
-        {
-          img: '/images/1.jpg',
-          alt: 'Треккинг в горах',
-          title: 'Горные походы',
-        },
-        {
-          img: '/images/2.jpg',
-          alt: 'Тренировки по борьбе',
-          title: 'Борьба и ОФП',
-        },
-        { img: '/images/3.jpeg', alt: 'Медиа занятия', title: 'Медиашкола' },
-      ],
-    };
+  @Get('programs')
+  @Render('programs')
+  programs() {
+    return baseView('Программы — Send Him to Dagestan', ['/js/main.js']);
+  }
+
+  @Get('how-it-works')
+  @Render('how-it-works')
+  howItWorks() {
+    return baseView('Как это работает — Send Him to Dagestan', ['/js/main.js']);
   }
 
   @Get('about')
   @Render('about')
-  about(@Query('auth') auth?: string) {
-    return {
-      title: 'Send Him to Dagestan — О нас',
-      year: new Date().getFullYear(),
-      headerDesc: 'Узнайте больше о нашей команде, миссии и принципах работы.',
-      menu: buildMenu(),
-      ...buildSession(auth),
-    };
+  about() {
+    return baseView('О нас — Send Him to Dagestan', ['/js/main.js']);
+  }
+
+  @Get('feedback')
+  @Render('feedback')
+  feedback() {
+    return baseView('Отзывы — Send Him to Dagestan', [
+      '/js/feedback.js',
+      '/js/main.js',
+      '/js/api.js',
+    ]);
   }
 
   @Get('apply')
   @Render('apply')
-  apply(@Query('auth') auth?: string) {
-    return {
-      title: 'Send Him to Dagestan — Подать заявку',
-      year: new Date().getFullYear(),
-      headerDesc:
-        'Заполните форму — мы свяжемся с вами и расскажем о дальнейших шагах.',
-      menu: buildMenu(),
-      ...buildSession(auth),
-    };
+  apply() {
+    return baseView('Подать заявку — Send Him to Dagestan', ['/js/main.js']);
+  }
+
+  @Get('contacts')
+  @Render('contacts')
+  contacts() {
+    return baseView('Контакты — Send Him to Dagestan', ['/js/main.js']);
   }
 }

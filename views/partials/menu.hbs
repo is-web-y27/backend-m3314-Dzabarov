@@ -1,5 +1,7 @@
 ﻿<nav class="nav">
-  {{#each menu}}
-    <a href="{{href}}">{{label}}</a>{{#unless @last}} | {{/unless}}
-  {{/each}}
+  <div class="nav__links">
+    {{#each menu}}
+      <a href="{{href}}" class="nav__link">{{label}}</a>
+    {{/each}}
+  </div>
 </nav>
