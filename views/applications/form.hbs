@@ -1,0 +1,71 @@
+{{> layoutStart}}
+<section class="section">
+  <h2>{{formTitle}}</h2>
+  <form class="entity-form" action="{{action}}" method="post">
+    <label class="form-row">
+      <span>ФИО</span>
+      <input class="input" type="text" name="fullName" value="{{application.participant.fullName}}" required>
+    </label>
+    <label class="form-row">
+      <span>Email</span>
+      <input class="input" type="email" name="email" value="{{application.participant.email}}" required>
+    </label>
+    <label class="form-row">
+      <span>Возраст</span>
+      <input class="input" type="number" name="age" value="{{application.participant.age}}" min="7" required>
+    </label>
+    <label class="form-row">
+      <span>Телефон</span>
+      <input class="input" type="text" name="phone" value="{{application.participant.phone}}" required>
+    </label>
+    <label class="form-row">
+      <span>Город</span>
+      <input class="input" type="text" name="city" value="{{application.participant.city}}">
+    </label>
+    <label class="form-row">
+      <span>Telegram</span>
+      <input class="input" type="text" name="telegram" value="{{application.participant.telegram}}">
+    </label>
+    <label class="form-row">
+      <span>Программа</span>
+      <select class="input" name="programId" required>
+        {{#each programs}}
+          <option value="{{id}}" {{#if selected}}selected{{/if}}>{{title}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label class="form-row">
+      <span>Смена</span>
+      <select class="input" name="shiftId" required>
+        {{#each shifts}}
+          <option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label class="form-row">
+      <span>Статус</span>
+      <select class="input" name="status" required>
+        {{#each statuses}}
+          <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" name="medicalApproved" {{#if application.medicalApproved}}checked{{/if}}>
+      <span>Есть медицинский допуск</span>
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" name="parentConsent" {{#if application.parentConsent}}checked{{/if}}>
+      <span>Есть согласие родителей</span>
+    </label>
+    <label class="form-row">
+      <span>Примечание</span>
+      <textarea class="textarea" name="note" rows="4">{{application.note}}</textarea>
+    </label>
+    <div class="card-actions">
+      <button class="button" type="submit">{{submitLabel}}</button>
+      <a class="button button--secondary" href="/applications">Отмена</a>
+    </div>
+  </form>
+</section>
+{{> layoutEnd}}

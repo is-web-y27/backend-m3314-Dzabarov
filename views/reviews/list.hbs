@@ -1,0 +1,38 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>Отзывы</h2>
+      <p>На этой странице подключён SSE-поток для уведомлений об изменениях.</p>
+    </div>
+    <a class="button" href="/reviews/add">Добавить отзыв</a>
+  </div>
+
+  <div id="sse-feed" class="sse-feed"></div>
+
+  {{#if reviews.length}}
+    <div class="entity-grid">
+      {{#each reviews}}
+        <article class="entity-card">
+          <h3>{{participant.fullName}}</h3>
+          <p>{{comment}}</p>
+          <dl class="details-list">
+            <div><dt>Программа</dt><dd>{{program.title}}</dd></div>
+            <div><dt>Оценка</dt><dd>{{rating}}</dd></div>
+            <div><dt>Email</dt><dd>{{participant.email}}</dd></div>
+          </dl>
+          <div class="card-actions">
+            <a class="button" href="/reviews/{{id}}">Открыть</a>
+            <a class="button button--secondary" href="/reviews/{{id}}/edit">Изменить</a>
+            <form action="/reviews/{{id}}/delete" method="post">
+              <button class="button button--danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </article>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="empty-state">Отзывов пока нет.</p>
+  {{/if}}
+</section>
+{{> layoutEnd}}

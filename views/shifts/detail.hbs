@@ -1,0 +1,22 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>{{shift.name}}</h2>
+      <p>Программа: {{shift.program.title}}</p>
+    </div>
+    <div class="card-actions">
+      <a class="button" href="/shifts/{{shift.id}}/edit">Редактировать</a>
+      <a class="button button--secondary" href="/shifts">К списку</a>
+    </div>
+  </div>
+
+  <dl class="details-list details-list--wide">
+    <div><dt>Дата начала</dt><dd>{{shift.startDate}}</dd></div>
+    <div><dt>Дата конца</dt><dd>{{shift.endDate}}</dd></div>
+    <div><dt>Вместимость</dt><dd>{{shift.capacity}}</dd></div>
+    <div><dt>Свободно</dt><dd>{{shift.availablePlaces}}</dd></div>
+    <div><dt>Сезон</dt><dd>{{shift.season}}</dd></div>
+  </dl>
+</section>
+{{> layoutEnd}}

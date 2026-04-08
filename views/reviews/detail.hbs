@@ -1,0 +1,24 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>Отзыв #{{review.id}}</h2>
+      <p>{{review.comment}}</p>
+    </div>
+    <div class="card-actions">
+      <a class="button" href="/reviews/{{review.id}}/edit">Редактировать</a>
+      <a class="button button--secondary" href="/reviews">К списку</a>
+    </div>
+  </div>
+
+  <dl class="details-list details-list--wide">
+    <div><dt>Участник</dt><dd>{{review.participant.fullName}}</dd></div>
+    <div><dt>Email</dt><dd>{{review.participant.email}}</dd></div>
+    <div><dt>Телефон</dt><dd>{{review.participant.phone}}</dd></div>
+    <div><dt>Возраст</dt><dd>{{review.participant.age}}</dd></div>
+    <div><dt>Программа</dt><dd>{{review.program.title}}</dd></div>
+    <div><dt>Оценка</dt><dd>{{review.rating}}</dd></div>
+    <div><dt>Создан</dt><dd>{{review.createdAt}}</dd></div>
+  </dl>
+</section>
+{{> layoutEnd}}

@@ -1,0 +1,27 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>Заявка #{{application.id}}</h2>
+      <p>{{application.participant.fullName}} подал заявку на программу {{application.program.title}}.</p>
+    </div>
+    <div class="card-actions">
+      <a class="button" href="/applications/{{application.id}}/edit">Редактировать</a>
+      <a class="button button--secondary" href="/applications">К списку</a>
+    </div>
+  </div>
+
+  <dl class="details-list details-list--wide">
+    <div><dt>Статус</dt><dd>{{application.status}}</dd></div>
+    <div><dt>Программа</dt><dd>{{application.program.title}}</dd></div>
+    <div><dt>Смена</dt><dd>{{application.shift.name}}</dd></div>
+    <div><dt>Email</dt><dd>{{application.participant.email}}</dd></div>
+    <div><dt>Телефон</dt><dd>{{application.participant.phone}}</dd></div>
+    <div><dt>Город</dt><dd>{{application.participant.city}}</dd></div>
+    <div><dt>Telegram</dt><dd>{{application.participant.telegram}}</dd></div>
+    <div><dt>Меддопуск</dt><dd>{{#if application.medicalApproved}}Да{{else}}Нет{{/if}}</dd></div>
+    <div><dt>Согласие родителей</dt><dd>{{#if application.parentConsent}}Да{{else}}Нет{{/if}}</dd></div>
+    <div><dt>Примечание</dt><dd>{{application.note}}</dd></div>
+  </dl>
+</section>
+{{> layoutEnd}}
