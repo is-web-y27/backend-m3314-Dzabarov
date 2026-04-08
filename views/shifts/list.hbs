@@ -1,0 +1,37 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>Смены</h2>
+      <p>Коллекция смен, связанных с программами.</p>
+    </div>
+    <a class="button" href="/shifts/add">Добавить смену</a>
+  </div>
+
+  {{#if shifts.length}}
+    <div class="entity-grid">
+      {{#each shifts}}
+        <article class="entity-card">
+          <h3>{{name}}</h3>
+          <p>Программа: {{program.title}}</p>
+          <dl class="details-list">
+            <div><dt>Начало</dt><dd>{{startDate}}</dd></div>
+            <div><dt>Конец</dt><dd>{{endDate}}</dd></div>
+            <div><dt>Мест</dt><dd>{{availablePlaces}} / {{capacity}}</dd></div>
+            <div><dt>Сезон</dt><dd>{{season}}</dd></div>
+          </dl>
+          <div class="card-actions">
+            <a class="button" href="/shifts/{{id}}">Открыть</a>
+            <a class="button button--secondary" href="/shifts/{{id}}/edit">Изменить</a>
+            <form action="/shifts/{{id}}/delete" method="post">
+              <button class="button button--danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </article>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="empty-state">Смен пока нет. Сначала создайте программу, затем смену.</p>
+  {{/if}}
+</section>
+{{> layoutEnd}}

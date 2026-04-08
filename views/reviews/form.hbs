@@ -1,0 +1,43 @@
+{{> layoutStart}}
+<section class="section">
+  <h2>{{formTitle}}</h2>
+  <form class="entity-form" action="{{action}}" method="post">
+    <label class="form-row">
+      <span>ФИО</span>
+      <input class="input" type="text" name="fullName" value="{{review.participant.fullName}}" required>
+    </label>
+    <label class="form-row">
+      <span>Email</span>
+      <input class="input" type="email" name="email" value="{{review.participant.email}}" required>
+    </label>
+    <label class="form-row">
+      <span>Возраст</span>
+      <input class="input" type="number" name="age" value="{{review.participant.age}}" min="7" required>
+    </label>
+    <label class="form-row">
+      <span>Телефон</span>
+      <input class="input" type="text" name="phone" value="{{review.participant.phone}}" required>
+    </label>
+    <label class="form-row">
+      <span>Программа</span>
+      <select class="input" name="programId" required>
+        {{#each programs}}
+          <option value="{{id}}" {{#if selected}}selected{{/if}}>{{title}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label class="form-row">
+      <span>Оценка</span>
+      <input class="input" type="number" name="rating" value="{{review.rating}}" min="1" max="5" required>
+    </label>
+    <label class="form-row">
+      <span>Комментарий</span>
+      <textarea class="textarea" name="comment" rows="5" required>{{review.comment}}</textarea>
+    </label>
+    <div class="card-actions">
+      <button class="button" type="submit">{{submitLabel}}</button>
+      <a class="button button--secondary" href="/reviews">Отмена</a>
+    </div>
+  </form>
+</section>
+{{> layoutEnd}}

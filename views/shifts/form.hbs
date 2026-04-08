@@ -1,0 +1,43 @@
+{{> layoutStart}}
+<section class="section">
+  <h2>{{formTitle}}</h2>
+  <form class="entity-form" action="{{action}}" method="post">
+    <label class="form-row">
+      <span>Название</span>
+      <input class="input" type="text" name="name" value="{{shift.name}}" required>
+    </label>
+    <label class="form-row">
+      <span>Дата начала</span>
+      <input class="input" type="date" name="startDate" value="{{shift.startDate}}" required>
+    </label>
+    <label class="form-row">
+      <span>Дата конца</span>
+      <input class="input" type="date" name="endDate" value="{{shift.endDate}}" required>
+    </label>
+    <label class="form-row">
+      <span>Вместимость</span>
+      <input class="input" type="number" name="capacity" value="{{shift.capacity}}" min="1" required>
+    </label>
+    <label class="form-row">
+      <span>Свободные места</span>
+      <input class="input" type="number" name="availablePlaces" value="{{shift.availablePlaces}}" min="0" required>
+    </label>
+    <label class="form-row">
+      <span>Сезон</span>
+      <input class="input" type="text" name="season" value="{{shift.season}}" required>
+    </label>
+    <label class="form-row">
+      <span>Программа</span>
+      <select class="input" name="programId" required>
+        {{#each programs}}
+          <option value="{{id}}" {{#if selected}}selected{{/if}}>{{title}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <div class="card-actions">
+      <button class="button" type="submit">{{submitLabel}}</button>
+      <a class="button button--secondary" href="/shifts">Отмена</a>
+    </div>
+  </form>
+</section>
+{{> layoutEnd}}
