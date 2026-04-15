@@ -14,6 +14,9 @@ import { ProgramsModule } from './programs/programs.module';
 import { ShiftsModule } from './shifts/shifts.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ApplicationsModule } from './applications/applications.module';
+import { ParticipantsModule } from './participants/participants.module';
+import { InstructorsModule } from './instructors/instructors.module';
+import { DatabaseSeedService } from './common/database-seed.service';
 
 @Module({
   imports: [
@@ -42,12 +45,15 @@ import { ApplicationsModule } from './applications/applications.module';
         },
       }),
     }),
+    TypeOrmModule.forFeature([Program, Participant, Instructor, Shift]),
     ProgramsModule,
     ShiftsModule,
     ReviewsModule,
     ApplicationsModule,
+    ParticipantsModule,
+    InstructorsModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [DatabaseSeedService],
 })
 export class AppModule {}

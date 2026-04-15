@@ -7,7 +7,7 @@ describe('AppController', () => {
     appController = new AppController();
   });
 
-  it('should redirect root to programs', () => {
-    expect(appController.index()).toBeUndefined();
+  it('should return main page view model', () => {
+    expect(appController.index()).toMatchObject({ title: 'Главная' });
   });
 });

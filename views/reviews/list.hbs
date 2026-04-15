@@ -1,0 +1,80 @@
+{{> layoutStart}}
+<section class="section">
+  <h2>Отзывы</h2>
+  <p>Заполните данные участника и сразу отправьте отзыв.</p>
+
+  <form class="entity-form" action="/reviews" method="post">
+    <label class="form-row">
+      <span>ФИО</span>
+      <input class="input" type="text" name="fullName" value="{{form.fullName}}" required>
+    </label>
+    <label class="form-row">
+      <span>Email</span>
+      <input class="input" type="email" name="email" value="{{form.email}}" required>
+    </label>
+    <label class="form-row">
+      <span>Возраст</span>
+      <input class="input" type="number" name="age" value="{{form.age}}" min="7" required>
+    </label>
+    <label class="form-row">
+      <span>Телефон</span>
+      <input class="input" type="text" name="phone" value="{{form.phone}}" required>
+    </label>
+    <label class="form-row">
+      <span>Город</span>
+      <input class="input" type="text" name="city" value="{{form.city}}">
+    </label>
+    <label class="form-row">
+      <span>Telegram</span>
+      <input class="input" type="text" name="telegram" value="{{form.telegram}}">
+    </label>
+    <label class="form-row">
+      <span>Программа</span>
+      <select class="input" name="programId" required>
+        {{#each programs}}
+          <option value="{{id}}">{{title}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label class="form-row">
+      <span>Оценка</span>
+      <input class="input" type="number" name="rating" value="{{form.rating}}" min="1" max="5" required>
+    </label>
+    <label class="form-row">
+      <span>Комментарий</span>
+      <textarea class="textarea" name="comment" rows="5" required>{{form.comment}}</textarea>
+    </label>
+    <div class="card-actions">
+      <button class="button" type="submit">Отправить отзыв</button>
+    </div>
+  </form>
+</section>
+
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>Список отзывов</h2>
+    </div>
+  </div>
+
+  <div id="sse-feed" class="sse-feed"></div>
+
+  {{#if reviews.length}}
+    <div class="entity-grid">
+      {{#each reviews}}
+        <article class="entity-card">
+          <h3>{{participant.fullName}}</h3>
+          <p>{{comment}}</p>
+          <dl class="details-list">
+            <div><dt>Программа</dt><dd>{{program.title}}</dd></div>
+            <div><dt>Оценка</dt><dd>{{rating}}</dd></div>
+            <div><dt>Email</dt><dd>{{participant.email}}</dd></div>
+          </dl>
+        </article>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="empty-state">Отзывов пока нет.</p>
+  {{/if}}
+</section>
+{{> layoutEnd}}

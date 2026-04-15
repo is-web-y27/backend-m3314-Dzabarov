@@ -1,0 +1,55 @@
+{{> layoutStart}}
+<section class="section">
+  <h2>Подать заявку</h2>
+  <form class="entity-form" action="/applications" method="post">
+    <label class="form-row">
+      <span>ФИО</span>
+      <input class="input" type="text" name="fullName" value="{{form.fullName}}" required>
+    </label>
+    <label class="form-row">
+      <span>Email</span>
+      <input class="input" type="email" name="email" value="{{form.email}}" required>
+    </label>
+    <label class="form-row">
+      <span>Возраст</span>
+      <input class="input" type="number" name="age" value="{{form.age}}" min="7" required>
+    </label>
+    <label class="form-row">
+      <span>Телефон</span>
+      <input class="input" type="text" name="phone" value="{{form.phone}}" required>
+    </label>
+    <label class="form-row">
+      <span>Город</span>
+      <input class="input" type="text" name="city" value="{{form.city}}">
+    </label>
+    <label class="form-row">
+      <span>Telegram</span>
+      <input class="input" type="text" name="telegram" value="{{form.telegram}}">
+    </label>
+    <label class="form-row">
+      <span>Программа</span>
+      <select class="input" name="programId" required>
+        {{#each programs}}
+          <option value="{{id}}">{{title}}</option>
+        {{/each}}
+      </select>
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" name="medicalApproved">
+      <span>Есть медицинский допуск</span>
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" name="parentConsent">
+      <span>Есть согласие родителей</span>
+    </label>
+    <label class="form-row">
+      <span>Примечание</span>
+      <textarea class="textarea" name="note" rows="4">{{form.note}}</textarea>
+    </label>
+    <div class="card-actions">
+      <button class="button" type="submit">Отправить заявку</button>
+      <a class="button button--secondary" href="/applications">К заявкам</a>
+    </div>
+  </form>
+</section>
+{{> layoutEnd}}
