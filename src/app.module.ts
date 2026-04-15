@@ -1,8 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLError } from 'graphql';
 import { join } from 'path';
+import {
+  createComplexityRule,
+  simpleEstimator,
+} from 'graphql-query-complexity';
 import { AppController } from './app.controller';
 import { Program } from './programs/entities/program.entity';
 import { Shift } from './shifts/entities/shift.entity';
@@ -25,6 +32,28 @@ import { DatabaseSeedService } from './common/database-seed.service';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
+      exclude: ['/graphql', '/graphql/(.*)'],
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      path: '/graphql',
+      autoSchemaFile: join(process.cwd(), 'src', 'schema.gql'),
+      sortSchema: true,
+      introspection: true,
+      playground: true,
+      validationRules: [
+        createComplexityRule({
+          maximumComplexity: 300,
+          onComplete: (complexity: number) => {
+            console.log(`GraphQL query complexity: ${complexity}`);
+          },
+          createError: (max, actual) =>
+            new GraphQLError(
+              `GraphQL query is too complex: ${actual}. Maximum allowed complexity: ${max}.`,
+            ),
+          estimators: [simpleEstimator({ defaultComplexity: 1 })],
+        }),
+      ],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

@@ -11,6 +11,10 @@ import { QueryFailedError } from 'typeorm';
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
+    if (host.getType<string>() !== 'http') {
+      throw exception;
+    }
+
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();

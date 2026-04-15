@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Application } from './entities/application.entity';
+import { Application, ApplicationStatus } from './entities/application.entity';
 import {
   ApplicationResponseDto,
   CreateApplicationDto,
@@ -83,9 +83,27 @@ export class ApplicationsService {
     return this.toResponse(await this.applicationsRepository.save(application));
   }
 
+  async approve(id: number) {
+    return this.changeStatus(id, ApplicationStatus.APPROVED);
+  }
+
+  async reject(id: number) {
+    return this.changeStatus(id, ApplicationStatus.REJECTED);
+  }
+
+  async moveToWaitlist(id: number) {
+    return this.changeStatus(id, ApplicationStatus.WAITLIST);
+  }
+
   async remove(id: number) {
     const application = await this.findEntity(id);
     await this.applicationsRepository.remove(application);
+  }
+
+  private async changeStatus(id: number, status: ApplicationStatus) {
+    const application = await this.findEntity(id);
+    application.status = status;
+    return this.toResponse(await this.applicationsRepository.save(application));
   }
 
   private async findEntity(id: number) {

@@ -8,11 +8,12 @@ import { Review } from '../reviews/entities/review.entity';
 import { Application } from '../applications/entities/application.entity';
 import { ProgramsWebController } from './programs.web.controller';
 import { ProgramsWebService } from './programs.web.service';
+import { ProgramsResolver } from './programs.resolver';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Program, Shift, Review, Application])],
   controllers: [ProgramsController, ProgramsWebController],
-  providers: [ProgramsService, ProgramsWebService],
+  providers: [ProgramsService, ProgramsWebService, ProgramsResolver],
   exports: [ProgramsService],
 })
 export class ProgramsModule {}
