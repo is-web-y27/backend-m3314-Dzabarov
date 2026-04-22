@@ -1,0 +1,35 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>Программы</h2>
+      <p>Коллекция программ лагеря.</p>
+    </div>
+  </div>
+
+  {{#if programs.length}}
+    <div class="entity-grid">
+      {{#each programs}}
+        <article class="entity-card">
+          <div class="image-container">
+            <img src="{{image}}" alt="{{title}}" class="image">
+          </div>
+          <h3>{{title}}</h3>
+          <p>{{description}}</p>
+          <dl class="details-list">
+            <div><dt>Формат</dt><dd>{{format}}</dd></div>
+            <div><dt>Сложность</dt><dd>{{difficulty}}</dd></div>
+            <div><dt>Дней</dt><dd>{{durationDays}}</dd></div>
+            <div><dt>Цена</dt><dd>{{price}}</dd></div>
+          </dl>
+          <div class="card-actions">
+            <a class="button" href="/programs/{{id}}">Открыть</a>
+          </div>
+        </article>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="empty-state">Программ пока нет.</p>
+  {{/if}}
+</section>
+{{> layoutEnd}}

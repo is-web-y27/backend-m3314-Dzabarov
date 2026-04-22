@@ -1,6 +1,10 @@
 ﻿<footer class="footer">
   <div class="container">
     <p class="footer__text">&copy; {{year}} Send Him to Dagestan.</p>
-    <div id="footer-stats"></div>
+    <div id="footer-stats" data-server-elapsed-time="{{serverElapsedTime}}">
+      {{#if serverElapsedTime}}
+        <p class="footer__load-time">Сервер: {{serverElapsedTime}}мс</p>
+      {{/if}}
+    </div>
   </div>
 </footer>
