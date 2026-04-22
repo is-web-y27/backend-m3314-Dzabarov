@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   HttpCode,
   Param,
   ParseIntPipe,
@@ -11,7 +12,9 @@ import {
   Query,
   Req,
   Res,
+  UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -43,6 +46,7 @@ import {
   ApplicationListResponseDto,
   ApplicationResponseDto,
 } from '../applications/dto/application.dto';
+import { ETagInterceptor } from '../common/interceptors/etag.interceptor';
 
 @ApiTags('programs')
 @Controller('api/programs')
@@ -50,6 +54,8 @@ export class ProgramsController {
   constructor(private readonly programsService: ProgramsService) {}
 
   @Get()
+  @Header('Cache-Control', 'public, max-age=3600')
+  @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить список программ' })
   @ApiOkResponse({
     type: ProgramListResponseDto,
@@ -83,6 +89,9 @@ export class ProgramsController {
   }
 
   @Get(':id')
+  @Header('Cache-Control', 'public, max-age=3600')
+  @UseInterceptors(ETagInterceptor, CacheInterceptor)
+  @CacheTTL(5000)
   @ApiOperation({ summary: 'Получить программу по идентификатору' })
   @ApiOkResponse({ type: ProgramResponseDto })
   @ApiBadRequestResponse({
@@ -125,6 +134,8 @@ export class ProgramsController {
   }
 
   @Get(':id/shifts')
+  @Header('Cache-Control', 'public, max-age=3600')
+  @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить смены программы' })
   @ApiOkResponse({
     type: ShiftListResponseDto,
@@ -162,6 +173,8 @@ export class ProgramsController {
   }
 
   @Get(':id/shifts/:shiftId')
+  @Header('Cache-Control', 'public, max-age=3600')
+  @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить конкретную смену программы' })
   @ApiOkResponse({ type: ShiftResponseDto })
   @ApiBadRequestResponse({
@@ -176,6 +189,8 @@ export class ProgramsController {
   }
 
   @Get(':id/reviews')
+  @Header('Cache-Control', 'public, max-age=3600')
+  @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить отзывы программы' })
   @ApiOkResponse({
     type: ReviewListResponseDto,
@@ -213,6 +228,8 @@ export class ProgramsController {
   }
 
   @Get(':id/reviews/:reviewId')
+  @Header('Cache-Control', 'public, max-age=3600')
+  @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить конкретный отзыв программы' })
   @ApiOkResponse({ type: ReviewResponseDto })
   @ApiBadRequestResponse({

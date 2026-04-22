@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Program } from './entities/program.entity';
 import { ProgramsController } from './programs.controller';
@@ -11,7 +12,12 @@ import { ProgramsWebService } from './programs.web.service';
 import { ProgramsResolver } from './programs.resolver';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Program, Shift, Review, Application])],
+  imports: [
+    CacheModule.register({
+      ttl: 5000,
+    }),
+    TypeOrmModule.forFeature([Program, Shift, Review, Application]),
+  ],
   controllers: [ProgramsController, ProgramsWebController],
   providers: [ProgramsService, ProgramsWebService, ProgramsResolver],
   exports: [ProgramsService],

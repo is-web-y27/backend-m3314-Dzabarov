@@ -4,6 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import type { Request, Response } from 'express';
 import { GraphQLError } from 'graphql';
 import { join } from 'path';
 import {
@@ -24,6 +26,8 @@ import { ApplicationsModule } from './applications/applications.module';
 import { ParticipantsModule } from './participants/participants.module';
 import { InstructorsModule } from './instructors/instructors.module';
 import { DatabaseSeedService } from './common/database-seed.service';
+import { RequestTimingInterceptor } from './common/interceptors/request-timing.interceptor';
+import { ObjectStorageModule } from './object-storage/object-storage.module';
 
 @Module({
   imports: [
@@ -44,6 +48,10 @@ import { DatabaseSeedService } from './common/database-seed.service';
       sortSchema: true,
       introspection: true,
       playground: true,
+      context: ({ req, res }: { req: Request; res: Response }) => ({
+        req,
+        res,
+      }),
       validationRules: [
         createComplexityRule({
           maximumComplexity: 300,
@@ -84,8 +92,15 @@ import { DatabaseSeedService } from './common/database-seed.service';
     ApplicationsModule,
     ParticipantsModule,
     InstructorsModule,
+    ObjectStorageModule,
   ],
   controllers: [AppController],
-  providers: [DatabaseSeedService],
+  providers: [
+    DatabaseSeedService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RequestTimingInterceptor,
+    },
+  ],
 })
 export class AppModule {}
