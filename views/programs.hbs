@@ -1,103 +1,29 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <title>{{title}}</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Программы: горный треккинг, борьба и ОФП, медиашкола.">
-  <meta name="keywords" content="программы, треккинг, борьба, медиашкола">
   {{> bundles}}
 </head>
 <body>
 {{> header}}
 
 <main class="main">
-  <section class="section" id="programs" aria-labelledby="programs-title">
-    <h2 id="programs-title">Наши программы</h2>
+  <section class="section">
+    <h2>Программы</h2>
+    <p>Три направления лагеря: походы, спортивная подготовка и медиапрактика.</p>
 
-    <article class="article">
-      <h3>Горный треккинг (7–10 дней)</h3>
-      <p>Маршруты по предгорьям Кавказа, базовые навыки туризма, безопасность в горах.</p>
-
-      <div class="image-container">
-        <img src="/images/1.jpg" alt="Горный треккинг в горах Кавказа" class="image" width="1000">
-        <p class="image-caption">Треккинг по живописным маршрутам Кавказа</p>
-      </div>
-
-      <ul class="list list--unordered">
-        <li class="list__item">Дневные переходы 8–12 км</li>
-        <li class="list__item">Работа в связках, лагерь, костёр</li>
-        <li class="list__item">Инструктаж по погоде и высоте</li>
-      </ul>
-    </article>
-
-    <article class="article">
-      <h3>Борьба и ОФП</h3>
-      <p>Тренировки под руководством местных наставников. Техника, сила, дисциплина.</p>
-
-      <div class="image-container">
-        <img src="/images/2.jpg" alt="Тренировки по борьбе" class="image" width="1000">
-        <p class="image-caption">Занятия борьбой под руководством опытных наставников</p>
-      </div>
-
-      <ol class="list list--ordered">
-        <li class="list__item">Разминка и база</li>
-        <li class="list__item">Партер и бросковые комбинации</li>
-        <li class="list__item">Спарринги <em class="em">только</em> в защитной экипировке</li>
-      </ol>
-    </article>
-
-    <article class="article">
-      <h3>Медиашкола</h3>
-      <p>Учимся рассказывать историю о собственном пути: фото, короткое видео, дневник похода.</p>
-
-      <div class="image-container">
-        <img src="/images/3.jpeg" alt="Занятия в медиашколе" class="image" width="1000">
-        <p class="image-caption">Освоение современных медиатехнологий</p>
-      </div>
-    </article>
-
-    <aside class="aside" aria-label="Важно">
-      <h3>Важно знать</h3>
-      <p>Ранее: <del class="del">«никаких ограничений по здоровью»</del>.
-        Актуально: <ins class="ins">участие только при наличии медицинского допуска и согласия родителей</ins>.</p>
-    </aside>
-
-    <article class="article">
-      <h3>Расписание и стоимость программ</h3>
-      <div class="table-container">
-        <table class="program-table">
-          <thead>
-          <tr>
-            <th>Программа</th>
-            <th>Длительность</th>
-            <th>Уровень подготовки</th>
-            <th>Стоимость</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>Горный треккинг</td>
-            <td>7-10 дней</td>
-            <td>Начинающий</td>
-            <td>20 000 руб.</td>
-          </tr>
-          <tr>
-            <td>Борьба и ОФП</td>
-            <td>14 дней</td>
-            <td>Средний</td>
-            <td>25 000 руб.</td>
-          </tr>
-          <tr>
-            <td>Медиашкола</td>
-            <td>10 дней</td>
-            <td>Начинающий</td>
-            <td>18 000 руб.</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </article>
+    <div class="entity-grid">
+      {{#each programs}}
+        <article class="entity-card">
+          <h3 class="article__title">{{title}}</h3>
+          <p>{{description}}</p>
+          <p><strong>Длительность:</strong> {{duration}}</p>
+          <p><strong>Стоимость:</strong> {{price}}</p>
+        </article>
+      {{/each}}
+    </div>
   </section>
 </main>
 

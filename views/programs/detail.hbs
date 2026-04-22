@@ -1,0 +1,27 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>{{program.title}}</h2>
+      <p>{{program.description}}</p>
+    </div>
+    <div class="card-actions">
+      <a class="button button--secondary" href="/programs">К списку</a>
+    </div>
+  </div>
+
+  <div class="image-container">
+    <img src="{{program.image}}" alt="{{program.title}}" class="image">
+  </div>
+
+  <dl class="details-list details-list--wide">
+    <div><dt>Формат</dt><dd>{{program.format}}</dd></div>
+    <div><dt>Сложность</dt><dd>{{program.difficulty}}</dd></div>
+    <div><dt>Длительность</dt><dd>{{program.durationDays}} дней</dd></div>
+    <div><dt>Стоимость</dt><dd>{{program.price}}</dd></div>
+    <div><dt>Активна</dt><dd>{{#if program.isActive}}Да{{else}}Нет{{/if}}</dd></div>
+    <div><dt>Смен</dt><dd>{{program.shifts.length}}</dd></div>
+    <div><dt>Отзывов</dt><dd>{{program.reviews.length}}</dd></div>
+  </dl>
+</section>
+{{> layoutEnd}}

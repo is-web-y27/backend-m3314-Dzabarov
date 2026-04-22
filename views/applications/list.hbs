@@ -1,0 +1,29 @@
+{{> layoutStart}}
+<section class="section">
+  <div class="page-actions">
+    <div>
+      <h2>Заявки</h2>
+      <p>Коллекция заявок на участие.</p>
+    </div>
+    <a class="button" href="/applications/add">Добавить заявку</a>
+  </div>
+
+  {{#if applications.length}}
+    <div class="entity-grid">
+      {{#each applications}}
+        <article class="entity-card">
+          <h3>{{participant.fullName}}</h3>
+          <p>{{program.title}} / {{shift.name}}</p>
+          <dl class="details-list">
+            <div><dt>Статус</dt><dd>{{status}}</dd></div>
+            <div><dt>Телефон</dt><dd>{{participant.phone}}</dd></div>
+            <div><dt>Дата</dt><dd>{{createdAt}}</dd></div>
+          </dl>
+        </article>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="empty-state">Заявок пока нет.</p>
+  {{/if}}
+</section>
+{{> layoutEnd}}

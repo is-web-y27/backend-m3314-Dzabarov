@@ -70,6 +70,7 @@
   class FooterYearManager {
     constructor() {
       this.updateYear();
+      this.updateStats();
     }
 
     updateYear() {
@@ -77,6 +78,19 @@
       if (footerText) {
         footerText.innerHTML = `&copy; ${new Date().getFullYear()} Джабаров Саид Аскерович, М3314`;
       }
+    }
+
+    updateStats() {
+      const stats = document.getElementById('footer-stats');
+      if (!stats || !window.performance) {
+        return;
+      }
+
+      const clientElapsedTime = Math.round(window.performance.now());
+      const serverElapsedTime = stats.dataset.serverElapsedTime;
+      const serverText = serverElapsedTime ? ` · Сервер: ${serverElapsedTime}мс` : '';
+
+      stats.innerHTML = `<p class="footer__load-time">Клиент: ${clientElapsedTime}мс${serverText}</p>`;
     }
   }
 
