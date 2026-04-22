@@ -94,7 +94,9 @@ export class ReviewsController {
   @ApiBadRequestResponse({
     description: 'Некорректный идентификатор отзыва или данные отзыва',
   })
-  @ApiNotFoundResponse({ description: 'Отзыв или связанные сущности не найдены' })
+  @ApiNotFoundResponse({
+    description: 'Отзыв или связанные сущности не найдены',
+  })
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateReviewDto) {
     return this.reviewsService.update(id, dto);
   }

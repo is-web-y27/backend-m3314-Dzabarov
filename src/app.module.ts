@@ -29,6 +29,9 @@ import { DatabaseSeedService } from './common/database-seed.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
+      validatePredefined: false,
+      validate: (config) => config,
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),

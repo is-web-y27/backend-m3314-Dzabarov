@@ -31,8 +31,14 @@ import {
   UpdateProgramDto,
 } from './dto/program.dto';
 import { ProgramsService } from './programs.service';
-import { ShiftListResponseDto, ShiftResponseDto } from '../shifts/dto/shift.dto';
-import { ReviewListResponseDto, ReviewResponseDto } from '../reviews/dto/review.dto';
+import {
+  ShiftListResponseDto,
+  ShiftResponseDto,
+} from '../shifts/dto/shift.dto';
+import {
+  ReviewListResponseDto,
+  ReviewResponseDto,
+} from '../reviews/dto/review.dto';
 import {
   ApplicationListResponseDto,
   ApplicationResponseDto,
@@ -79,7 +85,9 @@ export class ProgramsController {
   @Get(':id')
   @ApiOperation({ summary: 'Получить программу по идентификатору' })
   @ApiOkResponse({ type: ProgramResponseDto })
-  @ApiBadRequestResponse({ description: 'Некорректный идентификатор программы' })
+  @ApiBadRequestResponse({
+    description: 'Некорректный идентификатор программы',
+  })
   @ApiNotFoundResponse({ description: 'Программа не найдена' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.programsService.findOne(id);
@@ -108,7 +116,9 @@ export class ProgramsController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Удалить программу' })
   @ApiNoContentResponse({ description: 'Программа удалена' })
-  @ApiBadRequestResponse({ description: 'Некорректный идентификатор программы' })
+  @ApiBadRequestResponse({
+    description: 'Некорректный идентификатор программы',
+  })
   @ApiNotFoundResponse({ description: 'Программа не найдена' })
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.programsService.remove(id);

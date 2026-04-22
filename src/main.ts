@@ -29,7 +29,9 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Camp Programs API')
-    .setDescription('REST API для управления программами, сменами, заявками и отзывами')
+    .setDescription(
+      'REST API для управления программами, сменами, заявками и отзывами',
+    )
     .setVersion('1.0')
     .build();
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
