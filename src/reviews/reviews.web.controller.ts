@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import type { Response } from 'express';
 import { Observable } from 'rxjs';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
 import { baseView } from '../common/view';
 import { ReviewsWebService } from './reviews.web.service';
 
@@ -25,6 +26,7 @@ type ReviewFormBody = {
   telegram?: string;
 };
 
+@PublicAccess()
 @Controller('reviews')
 export class ReviewsWebController {
   constructor(private readonly reviewsWebService: ReviewsWebService) {}

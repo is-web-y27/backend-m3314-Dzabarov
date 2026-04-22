@@ -1,5 +1,18 @@
 ﻿<header class="header">
   <h1 class="header__title"><a href="/">Send Him to Dagestan</a></h1>
   <p class="header__description">{{{headerDesc}}}</p>
+  <div class="header__auth">
+    {{#if authUser}}
+      <span class="header__auth-user">{{authUser.label}}</span>
+      {{#if authUser.isAdmin}}
+        <a class="header__auth-link" href="/api/docs">Admin API</a>
+      {{/if}}
+      <form class="header__auth-form" action="{{authLogoutUrl}}" method="post">
+        <button class="header__auth-button" type="submit">Выйти</button>
+      </form>
+    {{else}}
+      <a class="header__auth-link" href="{{authLoginUrl}}">Войти</a>
+    {{/if}}
+  </div>
   {{> menu}}
 </header>

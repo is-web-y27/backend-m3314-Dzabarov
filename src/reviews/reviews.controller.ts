@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiCookieAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -22,6 +23,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/roles/role.enum';
 import { PageQueryDto } from '../common/dto/page-query.dto';
 import { setPaginationLinks } from '../common/pagination';
 import {
@@ -38,6 +42,7 @@ export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
   @Get()
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить список отзывов' })
   @ApiOkResponse({
     type: ReviewListResponseDto,
@@ -71,6 +76,7 @@ export class ReviewsController {
   }
 
   @Get(':id')
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить отзыв по идентификатору' })
   @ApiOkResponse({ type: ReviewResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректный идентификатор отзыва' })
@@ -80,6 +86,7 @@ export class ReviewsController {
   }
 
   @Post()
+  @PublicAccess()
   @ApiOperation({ summary: 'Создать отзыв' })
   @ApiCreatedResponse({ type: ReviewResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные отзыва' })
@@ -89,6 +96,8 @@ export class ReviewsController {
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Изменить отзыв' })
   @ApiOkResponse({ type: ReviewResponseDto })
   @ApiBadRequestResponse({
@@ -102,6 +111,8 @@ export class ReviewsController {
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @HttpCode(204)
   @ApiOperation({ summary: 'Удалить отзыв' })
   @ApiNoContentResponse({ description: 'Отзыв удалён' })

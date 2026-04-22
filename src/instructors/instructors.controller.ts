@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiCookieAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -22,6 +23,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/roles/role.enum';
 import { PageQueryDto } from '../common/dto/page-query.dto';
 import { setPaginationLinks } from '../common/pagination';
 import {
@@ -39,6 +43,7 @@ export class InstructorsController {
   constructor(private readonly instructorsService: InstructorsService) {}
 
   @Get()
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить список инструкторов' })
   @ApiOkResponse({
     type: InstructorListResponseDto,
@@ -72,6 +77,7 @@ export class InstructorsController {
   }
 
   @Get(':id')
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить инструктора по идентификатору' })
   @ApiOkResponse({ type: InstructorResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректный идентификатор инструктора' })
@@ -81,6 +87,8 @@ export class InstructorsController {
   }
 
   @Post()
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Создать инструктора' })
   @ApiCreatedResponse({ type: InstructorResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные инструктора' })
@@ -89,6 +97,8 @@ export class InstructorsController {
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Изменить инструктора' })
   @ApiOkResponse({ type: InstructorResponseDto })
   @ApiBadRequestResponse({
@@ -100,6 +110,8 @@ export class InstructorsController {
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @HttpCode(204)
   @ApiOperation({ summary: 'Удалить инструктора' })
   @ApiNoContentResponse({ description: 'Инструктор удалён' })
@@ -110,6 +122,7 @@ export class InstructorsController {
   }
 
   @Get(':id/shifts')
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить смены инструктора' })
   @ApiOkResponse({
     type: ShiftListResponseDto,
@@ -147,6 +160,7 @@ export class InstructorsController {
   }
 
   @Get(':id/shifts/:shiftId')
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить конкретную смену инструктора' })
   @ApiOkResponse({ type: ShiftResponseDto })
   @ApiBadRequestResponse({

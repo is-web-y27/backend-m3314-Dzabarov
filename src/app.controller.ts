@@ -1,6 +1,8 @@
 import { Controller, Get, Redirect, Render } from '@nestjs/common';
+import { PublicAccess } from './auth/decorators/public-access.decorator';
 import { baseView } from './common/view';
 
+@PublicAccess()
 @Controller()
 export class AppController {
   @Get()

@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiCookieAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -22,6 +23,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/roles/role.enum';
 import { PageQueryDto } from '../common/dto/page-query.dto';
 import { setPaginationLinks } from '../common/pagination';
 import {
@@ -46,6 +50,7 @@ export class ShiftsController {
   constructor(private readonly shiftsService: ShiftsService) {}
 
   @Get()
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить список смен' })
   @ApiOkResponse({
     type: ShiftListResponseDto,
@@ -79,6 +84,7 @@ export class ShiftsController {
   }
 
   @Get(':id')
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить смену по идентификатору' })
   @ApiOkResponse({ type: ShiftResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректный идентификатор смены' })
@@ -88,6 +94,8 @@ export class ShiftsController {
   }
 
   @Post()
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Создать смену' })
   @ApiCreatedResponse({ type: ShiftResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные смены' })
@@ -97,6 +105,8 @@ export class ShiftsController {
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Изменить смену' })
   @ApiOkResponse({ type: ShiftResponseDto })
   @ApiBadRequestResponse({
@@ -108,6 +118,8 @@ export class ShiftsController {
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @HttpCode(204)
   @ApiOperation({ summary: 'Удалить смену' })
   @ApiNoContentResponse({ description: 'Смена удалена' })
@@ -118,6 +130,7 @@ export class ShiftsController {
   }
 
   @Get(':id/instructors')
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить инструкторов смены' })
   @ApiOkResponse({
     type: InstructorListResponseDto,
@@ -155,6 +168,7 @@ export class ShiftsController {
   }
 
   @Get(':id/instructors/:instructorId')
+  @PublicAccess()
   @ApiOperation({ summary: 'Получить конкретного инструктора смены' })
   @ApiOkResponse({ type: InstructorResponseDto })
   @ApiBadRequestResponse({
@@ -169,6 +183,8 @@ export class ShiftsController {
   }
 
   @Get(':id/applications')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить заявки смены' })
   @ApiOkResponse({
     type: ApplicationListResponseDto,
@@ -206,6 +222,8 @@ export class ShiftsController {
   }
 
   @Get(':id/applications/:applicationId')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить конкретную заявку смены' })
   @ApiOkResponse({ type: ApplicationResponseDto })
   @ApiBadRequestResponse({

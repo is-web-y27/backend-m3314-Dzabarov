@@ -12,10 +12,13 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
+  ApiCookieAuth,
   ApiCreatedResponse,
   ApiServiceUnavailableResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/roles/role.enum';
 import { ObjectStorageService } from './object-storage.service';
 import type { UploadedFile as StorageUploadedFile } from './object-storage.service';
 
@@ -25,6 +28,8 @@ export class ObjectStorageController {
   constructor(private readonly objectStorageService: ObjectStorageService) {}
 
   @Post()
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({

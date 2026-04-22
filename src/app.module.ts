@@ -28,6 +28,7 @@ import { InstructorsModule } from './instructors/instructors.module';
 import { DatabaseSeedService } from './common/database-seed.service';
 import { RequestTimingInterceptor } from './common/interceptors/request-timing.interceptor';
 import { ObjectStorageModule } from './object-storage/object-storage.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -86,6 +87,31 @@ import { ObjectStorageModule } from './object-storage/object-storage.module';
       }),
     }),
     TypeOrmModule.forFeature([Program, Participant, Instructor, Shift]),
+    AuthModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const required = (key: string) => {
+          const value = configService.get<string>(key);
+
+          if (!value) {
+            throw new Error(`${key} is required`);
+          }
+
+          return value;
+        };
+
+        return {
+          connectionURI: required('SUPERTOKENS_CONNECTION_URI'),
+          apiKey:
+            configService.get<string>('SUPERTOKENS_API_KEY') || undefined,
+          appName: required('SUPERTOKENS_APP_NAME'),
+          apiDomain: required('SUPERTOKENS_API_DOMAIN'),
+          websiteDomain: required('SUPERTOKENS_WEBSITE_DOMAIN'),
+          apiBasePath: required('SUPERTOKENS_API_BASE_PATH'),
+          websiteBasePath: required('SUPERTOKENS_WEBSITE_BASE_PATH'),
+        };
+      },
+    }),
     ProgramsModule,
     ShiftsModule,
     ReviewsModule,

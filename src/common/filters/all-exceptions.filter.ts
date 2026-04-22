@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { Error as SuperTokensError } from 'supertokens-node';
 import { QueryFailedError } from 'typeorm';
 
 @Catch()
@@ -35,6 +36,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
   }
 
   private getStatus(exception: unknown) {
+    if (SuperTokensError.isErrorFromSuperTokens(exception)) {
+      if (exception.type === 'INVALID_CLAIMS') {
+        return HttpStatus.FORBIDDEN;
+      }
+
+      return HttpStatus.UNAUTHORIZED;
+    }
+
     if (exception instanceof HttpException) {
       return exception.getStatus();
     }
@@ -47,6 +56,22 @@ export class AllExceptionsFilter implements ExceptionFilter {
   }
 
   private getPayload(exception: unknown, status: number, path: string) {
+    if (SuperTokensError.isErrorFromSuperTokens(exception)) {
+      return {
+        statusCode: status,
+        message:
+          status === HttpStatus.FORBIDDEN
+            ? 'Insufficient permissions'
+            : 'Authentication is required',
+        error:
+          status === HttpStatus.FORBIDDEN
+            ? 'Forbidden'
+            : 'Unauthorized',
+        path,
+        timestamp: new Date().toISOString(),
+      };
+    }
+
     if (exception instanceof HttpException) {
       const error = exception.getResponse();
 

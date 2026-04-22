@@ -2,12 +2,14 @@ import { PartialType } from '@nestjs/swagger';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsEnum,
   IsInt,
   IsOptional,
   IsPositive,
   IsString,
   Length,
 } from 'class-validator';
+import { Role } from '../../auth/roles/role.enum';
 import { PaginationMetaDto } from '../../common/dto/pagination-meta.dto';
 
 export class CreateParticipantDto {
@@ -45,6 +47,19 @@ export class CreateParticipantDto {
 
 export class UpdateParticipantDto extends PartialType(CreateParticipantDto) {}
 
+export class UpdateParticipantAuthDto extends UpdateParticipantDto {
+  @ApiPropertyOptional({ example: '9bba1d70-3d4f-4d0f-a223-4f1a0f8520fd' })
+  @IsOptional()
+  @IsString()
+  @Length(1, 128)
+  superTokensUserId?: string | null;
+
+  @ApiPropertyOptional({ enum: Role, example: Role.User })
+  @IsOptional()
+  @IsEnum(Role)
+  role?: Role;
+}
+
 export class ParticipantResponseDto {
   @ApiProperty({ example: 1 })
   id: number;
@@ -66,6 +81,12 @@ export class ParticipantResponseDto {
 
   @ApiPropertyOptional({ example: '@ivan' })
   telegram: string | null;
+
+  @ApiPropertyOptional({ example: '9bba1d70-3d4f-4d0f-a223-4f1a0f8520fd' })
+  superTokensUserId: string | null;
+
+  @ApiProperty({ enum: Role, example: Role.User })
+  role: Role;
 }
 
 export class ParticipantListResponseDto extends PaginationMetaDto {

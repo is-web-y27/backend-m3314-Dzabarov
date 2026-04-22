@@ -1,0 +1,23 @@
+{{> layoutStart}}
+<section class="section">
+  <h2>Войти</h2>
+  {{#if error}}
+    <p class="error-message">{{error}}</p>
+  {{/if}}
+
+  <form class="entity-form" action="/login" method="post">
+    <label class="form-row">
+      <span>Email</span>
+      <input class="input" type="email" name="email" value="{{form.email}}" required>
+    </label>
+    <label class="form-row">
+      <span>Пароль</span>
+      <input class="input" type="password" name="password" minlength="8" required>
+    </label>
+    <div class="card-actions">
+      <button class="button" type="submit">Войти</button>
+      <button class="button button--secondary" type="submit" formaction="/register">Зарегистрироваться</button>
+    </div>
+  </form>
+</section>
+{{> layoutEnd}}

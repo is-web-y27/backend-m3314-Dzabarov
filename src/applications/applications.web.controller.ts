@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Render, Res } from '@nestjs/common';
 import type { Response } from 'express';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
 import { baseView } from '../common/view';
 import { ApplicationsWebService } from './applications.web.service';
 
@@ -16,6 +17,7 @@ type ApplicationFormBody = {
   telegram?: string;
 };
 
+@PublicAccess()
 @Controller('applications')
 export class ApplicationsWebController {
   constructor(

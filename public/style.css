@@ -113,6 +113,43 @@ a:hover {
     font-weight: 300;
 }
 
+.header__auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.header__auth-user {
+    color: var(--light-color);
+    font-weight: 600;
+}
+
+.header__auth-link,
+.header__auth-button {
+    color: white;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: var(--border-radius);
+    padding: 0.45rem 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.header__auth-link:hover,
+.header__auth-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    text-decoration: none;
+}
+
+.header__auth-form {
+    margin: 0;
+}
+
 .nav {
     text-align: center;
     padding: 1rem 0;

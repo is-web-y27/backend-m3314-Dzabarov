@@ -1,7 +1,9 @@
 import { Controller, Get, Param, ParseIntPipe, Render } from '@nestjs/common';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
 import { baseView } from '../common/view';
 import { ProgramsWebService } from './programs.web.service';
 
+@PublicAccess()
 @Controller('programs')
 export class ProgramsWebController {
   private readonly images: Record<string, string> = {

@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiCookieAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -22,6 +23,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/roles/role.enum';
 import { PageQueryDto } from '../common/dto/page-query.dto';
 import { setPaginationLinks } from '../common/pagination';
 import {
@@ -29,6 +34,7 @@ import {
   ParticipantListResponseDto,
   ParticipantResponseDto,
   UpdateParticipantDto,
+  UpdateParticipantAuthDto,
 } from './dto/participant.dto';
 import { ParticipantsService } from './participants.service';
 import {
@@ -46,6 +52,8 @@ export class ParticipantsController {
   constructor(private readonly participantsService: ParticipantsService) {}
 
   @Get()
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить список участников' })
   @ApiOkResponse({
     type: ParticipantListResponseDto,
@@ -78,7 +86,36 @@ export class ParticipantsController {
     return result;
   }
 
+  @Get('me')
+  @Roles(Role.User)
+  @ApiCookieAuth('supertokens')
+  @ApiOperation({ summary: 'Получить профиль текущего пользователя' })
+  @ApiOkResponse({ type: ParticipantResponseDto })
+  @ApiNotFoundResponse({ description: 'Профиль участника не найден' })
+  findMe(@Req() request: AuthenticatedRequest) {
+    return this.participantsService.findCurrent(request.auth?.participantId);
+  }
+
+  @Patch('me')
+  @Roles(Role.User)
+  @ApiCookieAuth('supertokens')
+  @ApiOperation({ summary: 'Изменить профиль текущего пользователя' })
+  @ApiOkResponse({ type: ParticipantResponseDto })
+  @ApiBadRequestResponse({ description: 'Некорректные данные участника' })
+  @ApiNotFoundResponse({ description: 'Профиль участника не найден' })
+  updateMe(
+    @Req() request: AuthenticatedRequest,
+    @Body() dto: UpdateParticipantDto,
+  ) {
+    return this.participantsService.updateCurrent(
+      request.auth?.participantId,
+      dto,
+    );
+  }
+
   @Get(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить участника по идентификатору' })
   @ApiOkResponse({ type: ParticipantResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректный идентификатор участника' })
@@ -88,6 +125,7 @@ export class ParticipantsController {
   }
 
   @Post()
+  @PublicAccess()
   @ApiOperation({ summary: 'Создать участника' })
   @ApiCreatedResponse({ type: ParticipantResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные участника' })
@@ -96,17 +134,24 @@ export class ParticipantsController {
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Изменить участника' })
   @ApiOkResponse({ type: ParticipantResponseDto })
   @ApiBadRequestResponse({
     description: 'Некорректный идентификатор участника или данные участника',
   })
   @ApiNotFoundResponse({ description: 'Участник не найден' })
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateParticipantDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateParticipantAuthDto,
+  ) {
     return this.participantsService.update(id, dto);
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @HttpCode(204)
   @ApiOperation({ summary: 'Удалить участника' })
   @ApiNoContentResponse({ description: 'Участник удалён' })
@@ -117,6 +162,8 @@ export class ParticipantsController {
   }
 
   @Get(':id/applications')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить заявки участника' })
   @ApiOkResponse({
     type: ApplicationListResponseDto,
@@ -154,6 +201,8 @@ export class ParticipantsController {
   }
 
   @Get(':id/applications/:applicationId')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить конкретную заявку участника' })
   @ApiOkResponse({ type: ApplicationResponseDto })
   @ApiBadRequestResponse({
@@ -168,6 +217,8 @@ export class ParticipantsController {
   }
 
   @Get(':id/reviews')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить отзывы участника' })
   @ApiOkResponse({
     type: ReviewListResponseDto,
@@ -205,6 +256,8 @@ export class ParticipantsController {
   }
 
   @Get(':id/reviews/:reviewId')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить конкретный отзыв участника' })
   @ApiOkResponse({ type: ReviewResponseDto })
   @ApiBadRequestResponse({

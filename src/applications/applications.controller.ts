@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiCookieAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -22,6 +23,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/roles/role.enum';
 import { PageQueryDto } from '../common/dto/page-query.dto';
 import { setPaginationLinks } from '../common/pagination';
 import {
@@ -38,6 +42,8 @@ export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
 
   @Get()
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить список заявок' })
   @ApiOkResponse({
     type: ApplicationListResponseDto,
@@ -71,6 +77,8 @@ export class ApplicationsController {
   }
 
   @Get(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить заявку по идентификатору' })
   @ApiOkResponse({ type: ApplicationResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректный идентификатор заявки' })
@@ -80,6 +88,7 @@ export class ApplicationsController {
   }
 
   @Post()
+  @PublicAccess()
   @ApiOperation({ summary: 'Создать заявку' })
   @ApiCreatedResponse({ type: ApplicationResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные заявки' })
@@ -91,6 +100,8 @@ export class ApplicationsController {
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Изменить заявку' })
   @ApiOkResponse({ type: ApplicationResponseDto })
   @ApiBadRequestResponse({
@@ -107,6 +118,8 @@ export class ApplicationsController {
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @HttpCode(204)
   @ApiOperation({ summary: 'Удалить заявку' })
   @ApiNoContentResponse({ description: 'Заявка удалена' })

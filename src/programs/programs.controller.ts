@@ -17,6 +17,7 @@ import {
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import {
   ApiBadRequestResponse,
+  ApiCookieAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -25,6 +26,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+import { PublicAccess } from '../auth/decorators/public-access.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/roles/role.enum';
 import { PageQueryDto } from '../common/dto/page-query.dto';
 import { setPaginationLinks } from '../common/pagination';
 import {
@@ -54,6 +58,7 @@ export class ProgramsController {
   constructor(private readonly programsService: ProgramsService) {}
 
   @Get()
+  @PublicAccess()
   @Header('Cache-Control', 'public, max-age=3600')
   @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить список программ' })
@@ -89,6 +94,7 @@ export class ProgramsController {
   }
 
   @Get(':id')
+  @PublicAccess()
   @Header('Cache-Control', 'public, max-age=3600')
   @UseInterceptors(ETagInterceptor, CacheInterceptor)
   @CacheTTL(5000)
@@ -103,6 +109,8 @@ export class ProgramsController {
   }
 
   @Post()
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Создать программу' })
   @ApiCreatedResponse({ type: ProgramResponseDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные программы' })
@@ -111,6 +119,8 @@ export class ProgramsController {
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Изменить программу' })
   @ApiOkResponse({ type: ProgramResponseDto })
   @ApiBadRequestResponse({
@@ -122,6 +132,8 @@ export class ProgramsController {
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @HttpCode(204)
   @ApiOperation({ summary: 'Удалить программу' })
   @ApiNoContentResponse({ description: 'Программа удалена' })
@@ -134,6 +146,7 @@ export class ProgramsController {
   }
 
   @Get(':id/shifts')
+  @PublicAccess()
   @Header('Cache-Control', 'public, max-age=3600')
   @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить смены программы' })
@@ -173,6 +186,7 @@ export class ProgramsController {
   }
 
   @Get(':id/shifts/:shiftId')
+  @PublicAccess()
   @Header('Cache-Control', 'public, max-age=3600')
   @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить конкретную смену программы' })
@@ -189,6 +203,7 @@ export class ProgramsController {
   }
 
   @Get(':id/reviews')
+  @PublicAccess()
   @Header('Cache-Control', 'public, max-age=3600')
   @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить отзывы программы' })
@@ -228,6 +243,7 @@ export class ProgramsController {
   }
 
   @Get(':id/reviews/:reviewId')
+  @PublicAccess()
   @Header('Cache-Control', 'public, max-age=3600')
   @UseInterceptors(ETagInterceptor)
   @ApiOperation({ summary: 'Получить конкретный отзыв программы' })
@@ -244,6 +260,8 @@ export class ProgramsController {
   }
 
   @Get(':id/applications')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить заявки программы' })
   @ApiOkResponse({
     type: ApplicationListResponseDto,
@@ -281,6 +299,8 @@ export class ProgramsController {
   }
 
   @Get(':id/applications/:applicationId')
+  @Roles(Role.Admin)
+  @ApiCookieAuth('supertokens')
   @ApiOperation({ summary: 'Получить конкретную заявку программы' })
   @ApiOkResponse({ type: ApplicationResponseDto })
   @ApiBadRequestResponse({

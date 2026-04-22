@@ -9,6 +9,7 @@ import {
   CreateParticipantDto,
   ParticipantResponseDto,
   UpdateParticipantDto,
+  UpdateParticipantAuthDto,
 } from './dto/participant.dto';
 import { PageQueryDto } from '../common/dto/page-query.dto';
 import { createPaginationResult } from '../common/pagination';
@@ -53,6 +54,14 @@ export class ParticipantsService {
     return this.toResponse(await this.findEntity(id));
   }
 
+  async findCurrent(participantId?: number) {
+    if (!participantId) {
+      throw new NotFoundException('Профиль участника не найден');
+    }
+
+    return this.findOne(participantId);
+  }
+
   async create(dto: CreateParticipantDto) {
     const participant = this.participantsRepository.create({
       ...dto,
@@ -62,13 +71,31 @@ export class ParticipantsService {
     return this.toResponse(await this.participantsRepository.save(participant));
   }
 
-  async update(id: number, dto: UpdateParticipantDto) {
+  async update(id: number, dto: UpdateParticipantAuthDto) {
     const participant = await this.findEntity(id);
     Object.assign(participant, {
       ...dto,
       city: dto.city ?? participant.city,
       telegram: dto.telegram ?? participant.telegram,
+      superTokensUserId:
+        dto.superTokensUserId ?? participant.superTokensUserId,
+      role: dto.role ?? participant.role,
     });
+    return this.toResponse(await this.participantsRepository.save(participant));
+  }
+
+  async updateCurrent(participantId: number | undefined, dto: UpdateParticipantDto) {
+    if (!participantId) {
+      throw new NotFoundException('Профиль участника не найден');
+    }
+
+    const participant = await this.findEntity(participantId);
+    Object.assign(participant, {
+      ...dto,
+      city: dto.city ?? participant.city,
+      telegram: dto.telegram ?? participant.telegram,
+    });
+
     return this.toResponse(await this.participantsRepository.save(participant));
   }
 
@@ -164,6 +191,8 @@ export class ParticipantsService {
       phone: participant.phone,
       city: participant.city,
       telegram: participant.telegram,
+      superTokensUserId: participant.superTokensUserId,
+      role: participant.role,
     };
   }
 
