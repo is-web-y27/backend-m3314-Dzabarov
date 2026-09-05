@@ -1,65 +1,49 @@
-﻿<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <title>{{title}}</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Сервис записи подростков в спортивно-туристические лагеря на Кавказе.">
-  {{> bundles}}
-</head>
-<body>
-{{> header}}
+{{> layoutStart}}
+<section class="section">
+  <h2>Добро пожаловать</h2>
+  <p>
+    Мы собираем подростковые группы для добровольных спортивно-туристических смен на Кавказе.
+    Цель — характер, здоровье, командная работа и уважение.
+  </p>
 
-<main class="main">
-  <section class="section">
-    <h2>Добро пожаловать</h2>
-    <p>
-      Мы собираем подростковые группы для добровольных спортивно-туристических смен на Кавказе.
-      Цель — характер, здоровье, командная работа и уважение.
-    </p>
+  <ul class="list list--unordered">
+    <li class="list__item">Прозрачные этапы набора и требования к безопасности.</li>
+    <li class="list__item">Наставники с опытом туризма и единоборств.</li>
+    <li class="list__item">Три направления: треккинг, борьба и медиашкола.</li>
+  </ul>
 
-    <ul class="list list--unordered">
-      <li class="list__item">Прозрачные этапы набора и требования к безопасности.</li>
-      <li class="list__item">Наставники с опытом туризма и единоборств.</li>
-      <li class="list__item">Три направления: треккинг, борьба и медиашкола.</li>
-    </ul>
+  <div class="image-container">
+    <img src="/images/Dagestan-3.jpeg" alt="Горы Кавказа" class="image">
+    <p class="image-caption">Величественные горы Кавказа - место наших программ</p>
+  </div>
 
-    <div class="image-container">
-      <img src="/images/Dagestan-3.jpeg" alt="Горы Кавказа" class="image">
-      <p class="image-caption">Величественные горы Кавказа - место наших программ</p>
+  <p>
+    Начните с раздела <a href="/how-it-works">«Как это работает»</a>
+    или сразу перейдите к <a href="/applications/add">заявке</a>.
+  </p>
+</section>
+
+<section class="section">
+  <div class="ad-banner">
+    <p>Специальное предложение: скидка 15% при ранней записи!</p>
+  </div>
+</section>
+
+<section class="section gallery-section">
+  <h2>Галерея наших программ</h2>
+  <div class="gallery">
+    <div class="gallery-item">
+      <img src="/images/1.jpg" alt="Треккинг в горах">
+      <p>Горные походы</p>
     </div>
-
-    <p>
-      Начните с раздела <a href="/how-it-works">«Как это работает»</a>
-      или сразу оставьте <a href="/apply">заявку</a>.
-    </p>
-  </section>
-
-  <section class="section">
-    <div class="ad-banner">
-      <p>Специальное предложение: скидка 15% при ранней записи!</p>
+    <div class="gallery-item">
+      <img src="/images/2.jpg" alt="Тренировки по борьбе">
+      <p>Борьба и ОФП</p>
     </div>
-  </section>
-
-  <section class="section gallery-section">
-    <h2>Галерея наших программ</h2>
-    <div class="gallery">
-      <div class="gallery-item">
-        <img src="/images/1.jpg" alt="Треккинг в горах">
-        <p>Горные походы</p>
-      </div>
-      <div class="gallery-item">
-        <img src="/images/2.jpg" alt="Тренировки по борьбе">
-        <p>Борьба и ОФП</p>
-      </div>
-      <div class="gallery-item">
-        <img src="/images/3.jpeg" alt="Медиа занятия">
-        <p>Медиашкола</p>
-      </div>
+    <div class="gallery-item">
+      <img src="/images/3.jpeg" alt="Медиа занятия">
+      <p>Медиашкола</p>
     </div>
-  </section>
-</main>
-
-{{> footer}}
-</body>
-</html>y
+  </div>
+</section>
+{{> layoutEnd}}

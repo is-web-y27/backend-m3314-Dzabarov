@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{> bundles}}
+</head>
+<body>
+{{> header}}
+
+<main class="main">
+  <section class="section">
+    <h2>Заявка</h2>
+    <p>Заполните данные участника и отправьте заявку на одну из доступных программ.</p>
+
+    <form id="application-form" class="entity-form">
+      <div class="form-row">
+        <label for="fullName">ФИО участника</label>
+        <input id="fullName" name="fullName" class="input" required>
+      </div>
+
+      <div class="form-row">
+        <label for="age">Возраст</label>
+        <input id="age" name="age" class="input" type="number" min="1" required>
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" name="email" class="input" type="email" required>
+      </div>
+
+      <div class="form-row">
+        <label for="phone">Телефон</label>
+        <input id="phone" name="phone" class="input" required>
+      </div>
+
+      <div class="form-row">
+        <label for="city">Город</label>
+        <input id="city" name="city" class="input">
+      </div>
+
+      <div class="form-row">
+        <label for="telegram">Telegram</label>
+        <input id="telegram" name="telegram" class="input">
+      </div>
+
+      <div class="form-row">
+        <label for="programId">Программа</label>
+        <select id="programId" name="programId" class="input" required></select>
+      </div>
+
+      <div class="checkbox-row">
+        <input id="medicalApproved" name="medicalApproved" type="checkbox">
+        <label for="medicalApproved">Медицинский допуск получен</label>
+      </div>
+
+      <div class="checkbox-row">
+        <input id="parentConsent" name="parentConsent" type="checkbox">
+        <label for="parentConsent">Есть согласие родителя</label>
+      </div>
+
+      <div class="form-row">
+        <label for="note">Примечание</label>
+        <textarea id="note" name="note" class="textarea"></textarea>
+      </div>
+
+      <button type="submit" class="button">Отправить заявку</button>
+    </form>
+    <p id="application-status" class="empty-state"></p>
+  </section>
+</main>
+
+{{> footer}}
+</body>
+</html>

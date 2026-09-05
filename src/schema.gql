@@ -1,0 +1,254 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Статусы заявки на участие в программе."""
+enum ApplicationStatus {
+  APPROVED
+  NEW
+  REJECTED
+  WAITLIST
+}
+
+"""Заявка на участие в программе."""
+type ApplicationType {
+  """Дата и время создания заявки."""
+  createdAt: DateTime!
+
+  """Идентификатор заявки."""
+  id: Int!
+
+  """Признак подтверждённого медицинского допуска."""
+  medicalApproved: Boolean!
+
+  """Дополнительная заметка по заявке."""
+  note: String
+
+  """Признак наличия согласия родителя."""
+  parentConsent: Boolean!
+
+  """Участник, подавший заявку."""
+  participant: ParticipantType
+
+  """Идентификатор участника заявки."""
+  participantId: Int!
+
+  """Программа, на которую подана заявка."""
+  program: ProgramType
+
+  """Идентификатор программы в заявке."""
+  programId: Int!
+
+  """Смена, выбранная в заявке."""
+  shift: ShiftType
+
+  """Идентификатор выбранной смены."""
+  shiftId: Int!
+
+  """Текущий статус заявки."""
+  status: ApplicationStatus!
+}
+
+"""Страница со списком заявок."""
+type ApplicationsPageType {
+  """Элементы текущей страницы."""
+  items: [ApplicationType!]!
+
+  """Количество элементов на странице."""
+  limit: Int!
+
+  """Текущий номер страницы."""
+  page: Int!
+
+  """Общее количество элементов."""
+  totalItems: Int!
+
+  """Общее количество страниц."""
+  totalPages: Int!
+}
+
+"""Данные для создания заявки."""
+input CreateApplicationInput {
+  """Признак подтверждённого медицинского допуска."""
+  medicalApproved: Boolean!
+
+  """Дополнительная заметка к заявке."""
+  note: String
+
+  """Признак наличия согласия родителя."""
+  parentConsent: Boolean!
+
+  """Идентификатор участника, который подаёт заявку."""
+  participantId: Int!
+
+  """Идентификатор программы для заявки."""
+  programId: Int!
+
+  """Идентификатор выбранной смены."""
+  shiftId: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  """Одобряет заявку."""
+  approveApplication(id: Int!): ApplicationType!
+
+  """Создаёт новую заявку на участие в программе."""
+  createApplication(input: CreateApplicationInput!): ApplicationType!
+
+  """Переводит заявку в лист ожидания."""
+  moveApplicationToWaitlist(id: Int!): ApplicationType!
+
+  """Отклоняет заявку."""
+  rejectApplication(id: Int!): ApplicationType!
+
+  """Обновляет данные существующей заявки без смены статуса."""
+  updateApplication(id: Int!, input: UpdateApplicationInput!): ApplicationType!
+}
+
+"""Параметры пагинации списка."""
+input PaginationInput {
+  """Количество элементов на одной странице."""
+  limit: Int! = 10
+
+  """Номер страницы, начиная с единицы."""
+  page: Int! = 1
+}
+
+"""Участник лагерной программы."""
+type ParticipantType {
+  """Возраст участника."""
+  age: Int!
+
+  """Город участника."""
+  city: String
+
+  """Электронная почта участника."""
+  email: String!
+
+  """Полное имя участника."""
+  fullName: String!
+
+  """Идентификатор участника."""
+  id: Int!
+
+  """Телефон участника."""
+  phone: String!
+
+  """Telegram участника."""
+  telegram: String
+}
+
+"""Программа лагеря."""
+type ProgramType {
+  """Описание программы."""
+  description: String!
+
+  """Уровень сложности программы."""
+  difficulty: String!
+
+  """Продолжительность программы в днях."""
+  durationDays: Int!
+
+  """Формат проведения программы."""
+  format: String!
+
+  """Идентификатор программы."""
+  id: Int!
+
+  """Признак доступности программы для записи."""
+  isActive: Boolean!
+
+  """Стоимость участия в программе."""
+  price: Float!
+
+  """Название программы."""
+  title: String!
+}
+
+"""Страница со списком программ."""
+type ProgramsPageType {
+  """Элементы текущей страницы."""
+  items: [ProgramType!]!
+
+  """Количество элементов на странице."""
+  limit: Int!
+
+  """Текущий номер страницы."""
+  page: Int!
+
+  """Общее количество элементов."""
+  totalItems: Int!
+
+  """Общее количество страниц."""
+  totalPages: Int!
+}
+
+type Query {
+  """Возвращает заявку по идентификатору."""
+  application(id: Int!): ApplicationType!
+
+  """Возвращает список заявок с пагинацией."""
+  applications(pagination: PaginationInput): ApplicationsPageType!
+
+  """Возвращает программу по идентификатору."""
+  program(id: Int!): ProgramType!
+
+  """Возвращает список программ с пагинацией."""
+  programs(pagination: PaginationInput): ProgramsPageType!
+}
+
+"""Смена по выбранной программе."""
+type ShiftType {
+  """Количество свободных мест в смене."""
+  availablePlaces: Int!
+
+  """Общая вместимость смены."""
+  capacity: Int!
+
+  """Дата окончания смены."""
+  endDate: String!
+
+  """Идентификатор смены."""
+  id: Int!
+
+  """Идентификаторы инструкторов смены."""
+  instructorIds: [Int!]!
+
+  """Название смены."""
+  name: String!
+
+  """Идентификатор программы, к которой относится смена."""
+  programId: Int!
+
+  """Сезон проведения смены."""
+  season: String!
+
+  """Дата начала смены."""
+  startDate: String!
+}
+
+"""Данные для обновления заявки без изменения статуса."""
+input UpdateApplicationInput {
+  """Признак подтверждённого медицинского допуска."""
+  medicalApproved: Boolean
+
+  """Дополнительная заметка к заявке."""
+  note: String
+
+  """Признак наличия согласия родителя."""
+  parentConsent: Boolean
+
+  """Идентификатор участника, который подаёт заявку."""
+  participantId: Int
+
+  """Идентификатор программы для заявки."""
+  programId: Int
+
+  """Идентификатор выбранной смены."""
+  shiftId: Int
+}
